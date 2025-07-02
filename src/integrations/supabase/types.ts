@@ -9,7 +9,204 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      communities: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          is_private: boolean | null
+          name: string
+          owner_id: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          is_private?: boolean | null
+          name: string
+          owner_id: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          is_private?: boolean | null
+          name?: string
+          owner_id?: string
+        }
+        Relationships: []
+      }
+      community_members: {
+        Row: {
+          community_id: string
+          id: string
+          joined_at: string
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          community_id: string
+          id?: string
+          joined_at?: string
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          community_id?: string
+          id?: string
+          joined_at?: string
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_members_community_id_fkey"
+            columns: ["community_id"]
+            isOneToOne: false
+            referencedRelation: "communities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      habit_categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          methods: string | null
+          name: string
+          quote: string | null
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          methods?: string | null
+          name: string
+          quote?: string | null
+          type: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          methods?: string | null
+          name?: string
+          quote?: string | null
+          type?: string
+        }
+        Relationships: []
+      }
+      habit_completions: {
+        Row: {
+          amount: number | null
+          completed_at: string
+          id: string
+          user_habit_id: string
+        }
+        Insert: {
+          amount?: number | null
+          completed_at?: string
+          id?: string
+          user_habit_id: string
+        }
+        Update: {
+          amount?: number | null
+          completed_at?: string
+          id?: string
+          user_habit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "habit_completions_user_habit_id_fkey"
+            columns: ["user_habit_id"]
+            isOneToOne: false
+            referencedRelation: "user_habits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          days_logged_in: number | null
+          display_name: string | null
+          email: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          days_logged_in?: number | null
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          days_logged_in?: number | null
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_habits: {
+        Row: {
+          best_streak: number | null
+          created_at: string
+          current_streak: number | null
+          custom_amount: number | null
+          habit_category_id: string
+          id: string
+          is_active: boolean | null
+          reminder_times: string[] | null
+          times_per_day: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          best_streak?: number | null
+          created_at?: string
+          current_streak?: number | null
+          custom_amount?: number | null
+          habit_category_id: string
+          id?: string
+          is_active?: boolean | null
+          reminder_times?: string[] | null
+          times_per_day?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          best_streak?: number | null
+          created_at?: string
+          current_streak?: number | null
+          custom_amount?: number | null
+          habit_category_id?: string
+          id?: string
+          is_active?: boolean | null
+          reminder_times?: string[] | null
+          times_per_day?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_habits_habit_category_id_fkey"
+            columns: ["habit_category_id"]
+            isOneToOne: false
+            referencedRelation: "habit_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
