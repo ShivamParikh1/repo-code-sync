@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import WeeklyTracker from '@/components/WeeklyTracker';
 
 interface UserStats {
   daysLoggedIn: number;
@@ -11,6 +14,7 @@ interface UserStats {
 
 const HomePage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [stats, setStats] = useState<UserStats>({
     daysLoggedIn: 0,
     activeHabits: 0,
@@ -87,6 +91,32 @@ const HomePage = () => {
         </p>
       </div>
 
+      {/* Weekly Tracker */}
+      <Card className="bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5">
+        <CardContent className="pt-6">
+          <WeeklyTracker />
+        </CardContent>
+      </Card>
+
+      {/* Habit Entry Buttons */}
+      <div className="grid grid-cols-2 gap-4">
+        <Button 
+          onClick={() => navigate('/habits/select/build')}
+          className="h-16 flex-col gap-2 bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+        >
+          <span className="text-2xl">🌱</span>
+          <span className="text-sm font-medium">Build a Habit</span>
+        </Button>
+        <Button 
+          onClick={() => navigate('/habits/select/break')}
+          variant="outline"
+          className="h-16 flex-col gap-2 border-destructive/20 text-destructive hover:bg-destructive/10"
+        >
+          <span className="text-2xl">🚫</span>
+          <span className="text-sm font-medium">Break a Habit</span>
+        </Button>
+      </div>
+
       {/* Stats Cards */}
       <div className="grid grid-cols-2 gap-4">
         <Card className="bg-gradient-to-br from-primary/10 to-primary/5">
@@ -116,10 +146,10 @@ const HomePage = () => {
         </Card>
       </div>
 
-      {/* Quick Actions */}
+      {/* Current Status */}
       <Card>
         <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
+          <CardTitle>Today's Status</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {stats.activeHabits === 0 ? (
@@ -127,7 +157,7 @@ const HomePage = () => {
               <div className="text-4xl">🌱</div>
               <h3 className="text-lg font-medium">Start Your Journey</h3>
               <p className="text-muted-foreground text-sm">
-                You haven't started any habits yet. Head to the Habits tab to begin building your perfect routine!
+                You haven't started any habits yet. Use the buttons above to begin building your perfect routine!
               </p>
             </div>
           ) : (

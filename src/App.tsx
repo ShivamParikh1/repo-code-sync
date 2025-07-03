@@ -9,6 +9,7 @@ import Layout from "@/components/Layout";
 import AuthPage from "@/pages/AuthPage";
 import HomePage from "@/pages/HomePage";
 import HabitsPage from "@/pages/HabitsPage";
+import HabitSelectPage from "@/pages/HabitSelectPage";
 import ProgressPage from "@/pages/ProgressPage";
 import CommunityPage from "@/pages/CommunityPage";
 import NotFound from "./pages/NotFound";
@@ -36,6 +37,11 @@ const App = () => (
                 <Layout>
                   <HabitsPage />
                 </Layout>
+              </ProtectedRoute>
+            } />
+            <Route path="/habits/select/:type" element={
+              <ProtectedRoute>
+                <HabitSelectPage />
               </ProtectedRoute>
             } />
             <Route path="/progress" element={
